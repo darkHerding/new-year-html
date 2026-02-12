@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>江潇新年快乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 50%, #ff6b8b 100%);
+            background-size: 400% 400%; /* 渐变动效基础 */
+            font-family: "Microsoft YaHei", "Heiti SC", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: bgGradient 15s ease infinite; /* 背景渐变动画 */
+        }
+
+        /* 背景渐变动画 */
+        @keyframes bgGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 雪花样式（不规则雪花形状） */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            z-index: 1;
+            pointer-events: none; /* 避免遮挡交互 */
+            opacity: 0.8;
+            /* 不规则雪花形状 */
+            clip-path: polygon(
+                50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%,
+                21% 91%, 32% 57%, 2% 35%, 39% 35%
+            );
+        }
+
+        /* 爱心样式 - 向上浮动（纯爱心形状，独立样式） */
+        .heart {
+            position: absolute;
+            bottom: -10px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.9;
+            /* 标准爱心形状 */
+            width: 15px;
+            height: 15px;
+            background: #ff6b8b;
+            transform: rotate(45deg);
+            animation: heartRise linear infinite;
+        }
+        /* 爱心伪元素完成心形 */
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ff6b8b;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -7.5px;
+            left: 0;
+        }
+        .heart::after {
+            top: 0;
+            left: -7.5px;
+        }
+
+        @keyframes heartRise {
+            from { 
+                transform: rotate(45deg) translateY(0) scale(1); 
+                opacity: 0.9;
+            }
+            to { 
+                transform: rotate(45deg) translateY(-100vh) scale(0.5); 
+                opacity: 0;
+            }
+        }
+
+        /* 礼花特效样式（优化性能+层次感） */
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            z-index: 3;
+            animation: firework 1s ease-out forwards;
+            pointer-events: none;
+            box-shadow: 0 0 10px currentColor; /* 光晕效果 */
+            color: inherit;
+            background: currentColor;
+        }
+        @keyframes firework {
+            0% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(4); opacity: 0.5; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+
+        /* 主容器：绝对居中，包裹所有内容 */
+        .main-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            padding: 0 15px; /* 避免小屏溢出 */
+        }
+
+        /* 祝福卡片样式（增强动效+质感） */
+        .blessing-card {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            text-align: center;
+            animation: cardFloat 3s ease-in-out infinite alternate, cardGlow 6s ease-in-out infinite; /* 新增光晕 */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+        }
+        @keyframes cardFloat {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+        @keyframes cardGlow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(255, 107, 139, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.8) inset; }
+            50% { box-shadow: 0 10px 40px rgba(255, 107, 139, 0.5), 0 0 10px rgba(255, 107, 139, 0.2) inset; }
+        }
+
+        /* 卡片文字样式（增强新年氛围） */
+        .card-title {
+            color: #d43f3a;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(212, 63, 58, 0.2);
+            animation: titlePulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes titlePulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        .friend-name {
+            color: #ff6b8b;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+        .friend-name::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6b8b, transparent);
+            animation: nameLine 3s ease-in-out infinite;
+        }
+        @keyframes nameLine {
+            0%, 100% { width: 0; left: 50%; }
+            50% { width: 100%; left: 0; }
+        }
+        .blessing-content {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left; /* 优化阅读体验 */
+            padding: 0 10px;
+        }
+        .lantern-icon {
+            font-size: 30px;
+            color: #d43f3a;
+            margin: 0 10px;
+            animation: lanternSwing 2s ease-in-out infinite alternate;
+        }
+        @keyframes lanternSwing {
+            from { transform: rotate(-5deg); }
+            to { transform: rotate(5deg); }
+        }
+
+        /* 开始答题按钮（增强动效+反馈） */
+        .start-btn {
+            padding: 12px 40px;
+            background: linear-gradient(90deg, #d43f3a, #ff6b8b);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(212, 63, 58, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .start-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        .start-btn:hover {
+            background: linear-gradient(90deg, #c22822, #ff4767);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(212, 63, 58, 0.4);
+        }
+        .start-btn:hover::before {
+            left: 100%;
+        }
+
+        /* 答题区域样式：增强质感+优化动画 */
+        .quiz-box {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            text-align: center;
+            display: none;
+            position: relative;
+            backdrop-filter: blur(5px);
+            transform: translateY(20px); /* 入场动画基础 */
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .quiz-box.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-8px) translateY(2px); }
+            75% { transform: translateX(8px) translateY(-2px); }
+        }
+        .quiz-box.shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        .quiz-question {
+            color: #d43f3a;
+            font-size: 22px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(212, 63, 58, 0.1);
+        }
+        /* 文本输入框样式 */
+        .quiz-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ff6b8b;
+            border-radius: 15px;
+            font-size: 17px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .quiz-input:focus {
+            border-color: #d43f3a;
+            box-shadow: 0 0 8px rgba(255, 107, 139, 0.2);
+        }
+        .submit-btn {
+            padding: 10px 30px;
+            background: linear-gradient(90deg, #d43f3a, #ff6b8b);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(90deg, #c22822, #ff4767);
+            transform: scale(1.05);
+        }
+        .quiz-tip {
+            margin-top: 20px;
+            color: #ff6b8b;
+            font-size: 15px;
+            display: none;
+            animation: tipFade 0.3s ease-in-out;
+        }
+        @keyframes tipFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 提示内容样式 */
+        .hint-content {
+            margin-top: 15px;
+            display: none;
+            animation: tipFade 0.3s ease-in-out;
+        }
+        .hint-img {
+            max-width: 200px;
+            border-radius: 10px;
+            margin: 10px auto;
+        }
+        .hint-qrcode {
+            max-width: 150px;
+            border-radius: 10px;
+            margin: 10px auto;
+        }
+        .hint-audio {
+            margin: 10px auto;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* 二维码/图片展示区（增强入场动效） */
+        .qrcode-box {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            text-align: center;
+            display: none;
+            backdrop-filter: blur(5px);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        .qrcode-box.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .qrcode-title {
+            color: #d43f3a;
+            font-size: 22px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            animation: titlePulse 2s ease-in-out infinite alternate;
+        }
+        .qrcode-img {
+            width: 80%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .qrcode-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* 加载提示（新增） */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            color: #d43f3a;
+            font-size: 20px;
+            display: none;
+        }
+
+        /* 猫咪时钟样式 */
+        .cat-clock-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            z-index: 998;
+            transition: all 0.3s ease;
+        }
+        .cat-clock {
+            width: 100%;
+            height: 100%;
+            background: url('https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/36ffbf0d37d24f86b4562ef6603ee28c.png~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=2026020615513656B388305A58700ECBB4&rrcfp=dafada99&x-expires=2086588296&x-signature=eTUWmC4DucHEKon3zQE7ep9fmeI%3D') center/contain no-repeat;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #d43f3a;
+            font-weight: bold;
+            font-size: 12px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .cat-clock-container:hover .cat-clock {
+            display: flex;
+        }
+
+        /* 彩蛋弹窗样式 */
+        .egg-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255,107,139,0.4);
+            text-align: center;
+            display: none;
+            animation: popupShow 0.5s ease-in-out;
+        }
+        @keyframes popupShow {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .egg-text {
+            color: #d43f3a;
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* 临时音频控件样式 */
+        .temp-audio {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 响应式优化（覆盖更多尺寸） */
+        @media (max-width: 480px) {
+            .card-title { font-size: 24px; }
+            .friend-name { font-size: 20px; }
+            .blessing-content { font-size: 16px; }
+            .quiz-question { font-size: 20px; }
+            .quiz-input { font-size: 16px; padding: 10px 15px; }
+            .submit-btn { font-size: 16px; padding: 8px 25px; }
+            .qrcode-title { font-size: 20px; }
+            .blessing-card, .quiz-box, .qrcode-box { padding: 30px 20px; }
+            .hint-img { max-width: 150px; }
+            .hint-qrcode { max-width: 120px; }
+            .cat-clock-container {
+                width: 80px;
+                height: 80px;
+                bottom: 15px;
+                right: 15px;
+            }
+            .egg-text { font-size: 18px; }
+            .temp-audio {
+                width: 90%;
+                bottom: 15px;
+            }
+        }
+        @media (max-width: 375px) {
+            .card-title { font-size: 22px; }
+            .friend-name { font-size: 18px; }
+            .blessing-content { font-size: 15px; line-height: 1.6; }
+            .start-btn { padding: 10px 30px; font-size: 16px; }
+        }
+        @media (orientation: landscape) and (max-height: 500px) {
+            .main-box { gap: 10px; }
+            .blessing-card, .quiz-box, .qrcode-box { padding: 20px 15px; }
+            .card-title { margin-bottom: 10px; }
+            .friend-name { margin-bottom: 15px; }
+            .blessing-content { margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载提示（新增） -->
+    <div class="loading" id="loading">加载中... 🧨</div>
+
+    <!-- 猫咪时钟容器 -->
+    <div class="cat-clock-container">
+        <div class="cat-clock" id="catClock"></div>
+    </div>
+
+    <!-- 彩蛋弹窗 -->
+    <div class="egg-popup" id="eggPopup">
+        <div class="egg-text">当当当，这个网页打开这么久啊，恭喜你触发了彩蛋啦</div>
+        <audio controls id="eggAudio" style="display: none;">
+            <source src="https://music.163.com/song/media/outer/url?id=4872514.mp3" type="audio/mpeg">
+            您的浏览器不支持音频播放
+        </audio>
+    </div>
+
+    <!-- 我爱你语音 - 修改class和样式 -->
+    <audio controls id="loveAudio" class="temp-audio" style="display: none;">
+        <source src="https://music.163.com/song/media/outer/url?id=4872514.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <!-- 主容器：绝对居中，包裹所有内容 -->
+    <div class="main-box">
+        <!-- 祝福卡片（点击控音乐，答题时隐藏） -->
+        <div class="blessing-card" id="blessingCard">
+            <h1 class="card-title">
+                <span class="lantern-icon">🏮</span>
+                新春快乐
+                <span class="lantern-icon">🏮</span>
+            </h1>
+            <h2 class="friend-name">江潇大笨蛋</h2>
+            <p class="blessing-content">
+                转眼又到新年，隔着山海，也挡不住对你的牵挂～<br>
+                新年快乐，愿新年的风，吹散旧岁的尘。
+                2026，保持热爱，奔赴山海，马到成功，万事顺意。✨～
+            </p>
+        </div>
+
+        <!-- 开始答题按钮 -->
+        <button class="start-btn" id="startBtn">开始答题</button>
+
+        <!-- 答题区域（居中显示，默认隐藏） -->
+        <div class="quiz-box" id="quizBox">
+            <div class="quiz-question" id="quizQuestion"></div>
+            <!-- 文本输入框 -->
+            <input type="text" class="quiz-input" id="quizInput" placeholder="请输入答案...">
+            <button class="submit-btn" id="submitBtn">提交答案 </button>
+            <div class="quiz-tip" id="quizTip">答错啦，再想想～ 😜</div>
+            <!-- 提示内容区域 -->
+            <div class="hint-content" id="hintContent"></div>
+        </div>
+
+        <!-- 二维码/图片展示区（居中显示，默认隐藏） -->
+        <div class="qrcode-box" id="qrcodeBox">
+            <h3 class="qrcode-title">🎉 答对啦！专属新年惊喜</h3>
+            <!-- 【需修改】替换成你的二维码/图片链接 -->
+            <img src="https://img-blog.csdnimg.cn/20240120152218999.png" alt="新年惊喜二维码" class="qrcode-img" loading="lazy">
+        </div>
+    </div>
+
+    <!-- 背景音乐（优化加载） -->
+    <audio preload="metadata" loop muted id="bg-music">
+        <source src="https://music.163.com/song/media/outer/url?id=4872514.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ———— 【需修改】第一步：自定义答题内容（核心）————
+        const quizList = [
+            {
+                question: "我想祝你新年什么？",
+                answer: "平安喜乐",
+                errorCount: 0,
+                maxError: 1,
+                hintType: "text",
+                hintContent: "答案是：平安喜乐"
+            },
+            {
+                question: "我的生日是？",
+                answer: "0619",
+                errorCount: 0,
+                maxError: 2,
+                hintType: "text",
+                hintContent: "我的生日都不记得啦？0619"
+            },
+            {
+                question: "最喜欢的颜色是？",
+                answer: "不知道",
+                errorCount: 0,
+                maxError: 3,
+                hintType: "qrcode",
+                hintContent: "https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/9c360b9ba17a42f7a42cd91fa84d875e.png~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=2026021117284549161C2F5D81B526B724&rrcfp=dafada99&x-expires=2087026125&x-signature=cCP5pt9GONLq%2B4Z7EpdK%2F0evYMw%3D" 
+            },
+            {
+                question: "我对于你算是什么样的存在？",
+                answer: "糖果",
+                errorCount: 0,
+                maxError: 4,
+            },
+            {
+                question: "我的游戏名？",
+                answer: "墨茶",
+                errorCount: 0,
+                maxError: 5,
+            }
+        ];
+
+        // ———— 第二步：获取页面元素 + 性能优化 ————
+        const dom = {
+            blessingCard: document.getElementById('blessingCard'),
+            startBtn: document.getElementById('startBtn'),
+            quizBox: document.getElementById('quizBox'),
+            quizQuestion: document.getElementById('quizQuestion'),
+            quizInput: document.getElementById('quizInput'),
+            submitBtn: document.getElementById('submitBtn'),
+            quizTip: document.getElementById('quizTip'),
+            hintContent: document.getElementById('hintContent'),
+            qrcodeBox: document.getElementById('qrcodeBox'),
+            card: document.querySelector('.blessing-card'),
+            music: document.getElementById('bg-music'),
+            loading: document.getElementById('loading'),
+            catClock: document.getElementById('catClock'),
+            eggPopup: document.getElementById('eggPopup'),
+            eggAudio: document.getElementById('eggAudio'),
+            loveAudio: document.getElementById('loveAudio'),
+            mainBox: document.querySelector('.main-box') // 新增：主内容容器
+        };
+        let currentQ = 0; // 当前答题索引
+        let isMusicOn = false; // 音乐状态
+        let snowCreated = false; // 雪花创建标记（避免重复创建）
+        let isLoveEggActive = false; // 爱心彩蛋激活标记
+        let eggPopupTimer = null; // 彩蛋弹窗定时器（新增）
+        let currentShowElement = 'blessingCard'; // 新增：记录当前显示的界面（默认贺卡）
+
+        // ———— 新增：页面计时逻辑 ————
+        let pageOpenTime = Date.now(); // 记录页面打开的时间戳
+        let timerInterval; // 计时器定时器
+
+        // 格式化时间为 分:秒（补零）
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // 更新猫咪时钟显示的计时
+        function updateCatClock() {
+            const now = Date.now();
+            const elapsedSeconds = (now - pageOpenTime) / 1000;
+            dom.catClock.textContent = formatTime(elapsedSeconds);
+            
+            // 示例：页面打开超过320秒触发彩蛋（可自定义触发条件）
+            if (elapsedSeconds >= 320 && !dom.eggPopup.style.display) {
+                showEggPopup();
+            }
+        }
+
+        // 启动页面计时（页面加载后立即执行）
+        function startPageTimer() {
+            // 立即更新一次
+            updateCatClock();
+            // 每秒更新一次
+            timerInterval = setInterval(updateCatClock, 1000);
+        }
+
+        // ———— 新增：显示彩蛋弹窗并隐藏当前界面 ————
+        function showEggPopup() {
+            // 1. 记录当前显示的界面
+            if (dom.quizBox.classList.contains('show')) {
+                currentShowElement = 'quizBox';
+            } else if (dom.qrcodeBox.classList.contains('show')) {
+                currentShowElement = 'qrcodeBox';
+            } else {
+                currentShowElement = 'blessingCard';
+            }
+
+            // 2. 隐藏主内容容器（所有界面统一隐藏）
+            dom.mainBox.style.display = 'none';
+
+            // 3. 显示彩蛋弹窗
+            dom.eggPopup.style.display = 'block';
+            // 播放彩蛋音频（处理自动播放限制）
+            dom.eggAudio.play().catch(err => {
+                console.log('彩蛋音频自动播放失败，显示控件:', err);
+                dom.eggAudio.style.display = 'block';
+            });
+
+            // 4. 30秒后关闭弹窗并恢复原界面
+            clearTimeout(eggPopupTimer); // 清除旧定时器（避免重复）
+            eggPopupTimer = setTimeout(() => {
+                hideEggPopup();
+            }, 30000); // 30秒 = 30000毫秒
+        }
+
+        // ———— 新增：隐藏彩蛋弹窗并恢复原界面 ————
+        function hideEggPopup() {
+            // 1. 隐藏彩蛋弹窗
+            dom.eggPopup.style.display = 'none';
+            dom.eggAudio.style.display = 'none';
+            dom.eggAudio.pause();
+            dom.eggAudio.currentTime = 0;
+
+            // 2. 恢复主内容容器显示
+            dom.mainBox.style.display = 'flex';
+
+            // 3. 恢复之前显示的界面
+            switch (currentShowElement) {
+                case 'blessingCard':
+                    dom.blessingCard.style.display = 'block';
+                    dom.startBtn.style.display = 'block';
+                    dom.quizBox.style.display = 'none';
+                    dom.qrcodeBox.style.display = 'none';
+                    break;
+                case 'quizBox':
+                    dom.blessingCard.style.display = 'none';
+                    dom.startBtn.style.display = 'none';
+                    dom.quizBox.style.display = 'block';
+                    dom.quizBox.classList.add('show');
+                    dom.qrcodeBox.style.display = 'none';
+                    break;
+                case 'qrcodeBox':
+                    dom.blessingCard.style.display = 'none';
+                    dom.startBtn.style.display = 'none';
+                    dom.quizBox.style.display = 'none';
+                    dom.qrcodeBox.style.display = 'block';
+                    dom.qrcodeBox.classList.add('show');
+                    break;
+            }
+
+            // 清除定时器
+            clearTimeout(eggPopupTimer);
+        }
+
+        // ———— 第三步：雪花飘落效果（不规则雪花形状）————
+        function createSnowflakes() {
+            if (snowCreated) return; // 避免重复创建
+            dom.loading.style.display = 'block'; // 显示加载提示
+            
+            // 异步创建雪花，避免阻塞主线程
+            setTimeout(() => {
+                const snowCount = window.innerWidth > 768 ? 120 : 80; // 大屏多雪花
+                const body = document.body;
+                
+                // 批量创建雪花（减少DOM操作）
+                let snowHTML = '';
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes snowFall {
+                        from { transform: translateY(0) rotate(0deg); }
+                        to { transform: translateY(100vh) rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                for (let i = 0; i < snowCount; i++) {
+                    // 不规则雪花尺寸
+                    const size = Math.random() * 10 + 3;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 10 + 10;
+                    const delay = Math.random() * 20;
+                    const opacity = Math.random() * 0.7 + 0.3;
+                    // 随机雪花旋转角度
+                    const rotate = Math.random() * 360;
+                    
+                    snowHTML += `
+                        <div class="snowflake" style="
+                            width: ${size}px;
+                            height: ${size}px;
+                            left: ${left}vw;
+                            animation: snowFall ${animationDuration}s linear ${delay}s infinite;
+                            opacity: ${opacity};
+                            background: white;
+                            transform: rotate(${rotate}deg);
+                        "></div>
+                    `;
+                }
+                
+                body.insertAdjacentHTML('beforeend', snowHTML);
+                snowCreated = true;
+                dom.loading.style.display = 'none'; // 隐藏加载提示
+            }, 100);
+        }
+
+        // ———— 爱心上浮效果（修复：确保一定会执行）————
+        function createHearts() {
+            // 重置标记，确保每次都能创建
+            isLoveEggActive = false;
+            
+            const heartCount = window.innerWidth > 768 ? 200 : 120;
+            const body = document.body;
+            
+            // 先清除可能残留的爱心
+            const oldHearts = document.querySelectorAll('.heart');
+            oldHearts.forEach(heart => heart.remove());
+            
+            // 批量创建爱心
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                
+                // 随机位置和动画参数
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 8 + 5;
+                const delay = Math.random() * 3;
+                const sizeScale = Math.random() * 0.8 + 0.5; // 0.5-1.3倍大小
+                
+                heart.style.left = `${left}vw`;
+                heart.style.animationDuration = `${animationDuration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.transform = `rotate(45deg) scale(${sizeScale})`;
+                
+                // 爱心颜色变化（深浅粉色）
+                const hue = 340 + Math.random() * 10; // 粉色系
+                const saturation = 80 + Math.random() * 20;
+                const lightness = 60 + Math.random() * 10;
+                heart.style.background = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                
+                body.appendChild(heart);
+                
+                // 动画结束后移除爱心
+                setTimeout(() => {
+                    try {
+                        heart.remove();
+                    } catch (e) {
+                        console.log('移除爱心元素时出错:', e);
+                    }
+                    if (i === heartCount - 1) {
+                        isLoveEggActive = false;
+                    }
+                }, (animationDuration + delay) * 1000);
+            }
+            
+            isLoveEggActive = true;
+        }
+
+        // ———— 第四步：特效函数（增强+性能优化）————
+        // 4.1 答对礼花特效（优化性能）
+        function createFirework() {
+            const fireworkCount = window.innerWidth > 768 ? 150 : 80; // 大屏多礼花
+            const body = document.body;
+            const colors = ['#ff6b8b', '#d43f3a', '#ffd700', '#32cd32', '#1e90ff', '#ff69b4'];
+            
+            // 批量创建礼花
+            let fireworkHTML = '';
+            for (let i = 0; i < fireworkCount; i++) {
+                const size = Math.random() * 6 + 4;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                fireworkHTML += `
+                    <div class="firework" style="
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${left}vw;
+                        top: ${top}vh;
+                        color: ${color};
+                    "></div>
+                `;
+            }
+            
+            body.insertAdjacentHTML('beforeend', fireworkHTML);
+            
+            // 批量移除礼花（减少定时器数量）
+            setTimeout(() => {
+                const fireworks = document.querySelectorAll('.firework');
+                fireworks.forEach(fw => fw.remove());
+            }, 1000);
+        }
+
+        // 4.2 答错抖动特效（优化）
+        function shakeQuizBox() {
+            dom.quizBox.classList.add('shake');
+            setTimeout(() => dom.quizBox.classList.remove('shake'), 300);
+        }
+
+        // 4.3 显示提示内容
+        function showHint() {
+            const currentQuiz = quizList[currentQ];
+            let hintHTML = '';
+            
+            switch(currentQuiz.hintType) {
+                case 'text':
+                    hintHTML = `<p style="color: #d43f3a; font-size: 16px;">${currentQuiz.hintContent}</p>`;
+                    break;
+                case 'image':
+                    hintHTML = `<img src="${currentQuiz.hintContent}" alt="提示图片" class="hint-img">`;
+                    break;
+                case 'qrcode':
+                    hintHTML = `<img src="${currentQuiz.hintContent}" alt="提示二维码" class="hint-qrcode">
+                                <p style="color: #666; font-size: 14px; margin-top: 10px;"></p>`;
+                    break;
+                case 'audio':
+                    hintHTML = `<audio controls class="hint-audio">
+                                <source src="${currentQuiz.hintContent}" type="audio/mpeg">
+                                您的浏览器不支持音频播放
+                                </audio>
+                                <p style="color: #666; font-size: 14px; margin-top: 10px;">播放音频获取答案提示</p>`;
+                    break;
+            }
+            
+            dom.hintContent.innerHTML = hintHTML;
+            dom.hintContent.style.display = 'block';
+        }
+
+        // ———— 发送邮件函数（第四题专用）————
+        function sendAnswerToEmail(answer) {
+            // 使用EmailJS或表单提交方式发送邮件
+            // 这里使用简易的mailto方式（实际生产环境建议使用后端接口）
+            const subject = '新年答题第四题答案';
+            const body = `第四题答案：${answer}`;
+            const mailtoLink = `mailto:1090456682@qq.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // 尝试打开邮件客户端
+            window.open(mailtoLink);
+            
+            // 如需无界面发送，需对接后端API，示例：
+            /*
+            fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    to: '1090456682@qq.com',
+                    subject: '新年答题第四题答案',
+                    content: answer
+                })
+            }).then(res => res.json())
+              .then(data => console.log('邮件发送成功:', data))
+              .catch(err => console.error('邮件发送失败:', err));
+            */
+        }
+
+        // ———— 第五步：加载当前题目（优化交互）————
+        function loadQuiz() {
+            dom.quizInput.value = ''; // 清空输入框
+            dom.quizTip.style.display = 'none'; // 隐藏错误提示
+            dom.hintContent.style.display = 'none'; // 隐藏提示内容
+            const currentQuiz = quizList[currentQ];
+            dom.quizQuestion.innerText = currentQuiz.question;
+            
+            // 记录当前显示的是答题界面
+            currentShowElement = 'quizBox';
+            
+            // 答题区入场动画
+            dom.quizBox.classList.add('show');
+        }
+
+        // ———— 处理我爱你彩蛋逻辑 ————
+        function handleLoveEgg() {
+            // 1. 立即隐藏答题界面
+            dom.quizBox.style.display = 'none';
+            
+            // 2. 强制创建爱心动画（优先执行）
+            createHearts();
+            
+            // 3. 处理语音播放 - 修复浏览器自动播放限制
+            try {
+                // 先尝试自动播放
+                dom.loveAudio.play().then(() => {
+                    console.log('语音自动播放成功');
+                    dom.loveAudio.style.display = 'none'; // 隐藏控件
+                }).catch(err => {
+                    console.log('自动播放失败，显示音频控件:', err);
+                    // 显示音频控件，让用户手动播放
+                    dom.loveAudio.style.display = 'block';
+                    alert('🎵 需要你手动点击播放语音哦～\n20秒后答题界面会自动恢复');
+                });
+            } catch (e) {
+                console.error('播放语音出错:', e);
+                // 即使出错也显示音频控件
+                dom.loveAudio.style.display = 'block';
+            }
+            
+            // 4. 18秒后自动恢复答题界面
+            setTimeout(() => {
+                // 隐藏音频控件
+                dom.loveAudio.style.display = 'none';
+                // 停止语音播放（防止继续播放）
+                try {
+                    dom.loveAudio.pause();
+                    dom.loveAudio.currentTime = 0;
+                } catch (e) {
+                    console.log('停止音频时出错:', e);
+                }
+                // 重新显示答题界面
+                dom.quizBox.style.display = 'block';
+                loadQuiz();
+            }, 18000); // 18秒 = 18000毫秒
+        }
+
+        // ———— 第六步：验证答案（优化逻辑）————
+        function checkAnswer() {
+            const userAnswer = dom.quizInput.value.trim().replace(/\s+/g, '');
+            
+            // 调试：输出用户输入内容
+            console.log('用户输入:', userAnswer);
+            
+            // 检查是否输入"我爱你"（增加容错）
+            if (userAnswer === '我爱你' || userAnswer === '我愛你' || userAnswer === '520') {
+                console.log('触发我爱你彩蛋');
+                handleLoveEgg();
+                return; // 终止后续答题逻辑，先处理彩蛋
+            }
+            
+            const currentQuiz = quizList[currentQ];
+            
+            // 第四题特殊处理：无论答案是什么都正确，并发送邮件
+            if (currentQ === 3) { // 第四题索引为3
+                sendAnswerToEmail(userAnswer);
+                createFirework(); // 礼花特效
+                if (currentQ === quizList.length - 1) {
+                    setTimeout(() => {
+                        dom.quizBox.style.display = 'none';
+                        dom.qrcodeBox.style.display = 'block';
+                        // 记录当前显示的是二维码界面
+                        currentShowElement = 'qrcodeBox';
+                        setTimeout(() => dom.qrcodeBox.classList.add('show'), 50);
+                    }, 500);
+                } else {
+                    currentQ++;
+                    loadQuiz();
+                }
+                return;
+            }
+
+            // 普通答题逻辑
+            if (userAnswer === currentQuiz.answer) {
+                createFirework(); // 礼花特效
+                if (currentQ === quizList.length - 1) {
+                    // 最后一题答对，显示二维码
+                    setTimeout(() => {
+                        dom.quizBox.style.display = 'none';
+                        dom.qrcodeBox.style.display = 'block';
+                        // 记录当前显示的是二维码界面
+                        currentShowElement = 'qrcodeBox';
+                        setTimeout(() => dom.qrcodeBox.classList.add('show'), 50);
+                    }, 500);
+                } else {
+                    // 进入下一题
+                    currentQ++;
+                    loadQuiz();
+                }
+            } else {
+                // 答错逻辑
+                currentQuiz.errorCount++;
+                shakeQuizBox(); // 抖动特效
+                dom.quizTip.style.display = 'block';
+                
+                // 达到最大错误次数显示提示
+                if (currentQuiz.errorCount >= currentQuiz.maxError) {
+                    showHint();
+                }
+            }
+        }
+
+        // ———— 第七步：事件绑定（优化+兼容）————
+        // 7.1 开始答题按钮
+        dom.startBtn.addEventListener('click', () => {
+            dom.blessingCard.style.display = 'none';
+            dom.startBtn.style.display = 'none';
+            dom.quizBox.style.display = 'block';
+            // 记录当前显示的是答题界面
+            currentShowElement = 'quizBox';
+            loadQuiz();
+            // 首次点击创建雪花（性能优化）
+            if (!snowCreated) createSnowflakes();
+        });
+
+        // 7.2 提交答案按钮
+        dom.submitBtn.addEventListener('click', checkAnswer);
+
+        // 7.3 回车提交答案
+        dom.quizInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') checkAnswer();
+        });
+
+        // 7.4 贺卡点击播放音乐（修复自动播放限制）
+        dom.blessingCard.addEventListener('click', () => {
+            if (!isMusicOn) {
+                // 处理浏览器自动播放策略
+                dom.music.muted = false;
+                dom.music.play().catch(err => {
+                    console.log('音乐自动播放失败:', err);
+                    alert('🎵 需要你手动允许音频播放哦～');
+                    dom.music.muted = false;
+                });
+                isMusicOn = true;
+                // 点击贺卡创建雪花（性能优化）
+                if (!snowCreated) createSnowflakes();
+            }
+        });
+
+        // ———— 初始化 ————
+        window.addEventListener('load', () => {
+            startPageTimer(); // 启动页面计时
+            // 预加载雪花（可选，根据需求）
+            // setTimeout(createSnowflakes, 1000);
+        });
+
+        // 防止页面卸载时定时器残留
+        window.addEventListener('beforeunload', () => {
+            clearInterval(timerInterval);
+            clearTimeout(eggPopupTimer);
+        });
+    </script>
+</body>
+</html>
